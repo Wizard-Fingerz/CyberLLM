@@ -20,7 +20,7 @@ env/
 .vscode/
 
 # Data files
-*.csv
+# *.csv
 *.tsv
 *.data
 *.dat
