@@ -8,7 +8,9 @@ seed: 42
 task_name: "attack_type_classification"  # free text, for bookkeeping
 text_fields: [
   "Scenario Description",
-  "Tools Used"
+  "Tools Used",
+  "Category",
+  "Attack Steps",
 ]
 label_field: "Attack Type"          # choose: Attack Type, Category, MITRE Technique, Impact (etc.)
 
