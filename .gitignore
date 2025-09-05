@@ -50,7 +50,6 @@ Thumbs.db
 *.json
 *.jsonl
 *.bin
-*.txt
 
 models/
 !models/.gitkeep

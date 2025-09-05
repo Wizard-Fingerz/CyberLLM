@@ -1,0 +1,67 @@
+Got it 👍 Let’s break down what these evaluation metrics mean for your model:
+
+---
+
+### 📊 **Results for Robert-Base**
+
+* **`eval_loss`: 3.1345**
+  The cross-entropy loss is relatively high (lower is better). This suggests the model is struggling to fit the data.
+
+* **`eval_accuracy`: 56.4%**
+  The model gets about half of the samples correct. Depending on the number of classes and the baseline (random guessing), this may or may not be meaningful.
+
+  * Example: if you have 2 classes, random guessing gives \~50%, so 56% is only slightly better than chance.
+  * If you have many classes (say 10+), then 56% is a decent signal.
+
+* **`eval_precision`: 0.0011 (0.11%)**
+  Extremely low. Out of all the positive predictions, almost none were correct. The model is misclassifying a lot.
+
+* **`eval_recall`: 0.00195 (0.2%)**
+  Extremely low. Out of all true positives, the model is barely identifying any. Suggests the model is missing almost everything relevant.
+
+* **`eval_f1`: 0.0014**
+  Since both precision and recall are near zero, F1 score is also near zero. This indicates the model ba Msically failed at detecting the positive class.
+
+---
+
+### ⏱ Performance
+
+* **Runtime**: 2215 seconds (\~37 minutes) for evaluation.
+* **Samples/sec**: 1.276 → very slow evaluation throughput. Could be due to:
+
+  * Large model size
+  * Running on CPU (not GPU/TPU)
+  * Large input sequence length
+  * Inefficient dataloader setup
+
+---
+
+### 🔎 **Interpretation**
+
+* Your model seems to **predict the majority class most of the time**. That explains why **accuracy is non-trivial (56%)**, but **precision/recall are near zero**.
+* This usually happens in **imbalanced datasets** (e.g., one class dominates) or when the model hasn’t trained long enough.
+
+---
+
+### ✅ **Next Steps**
+
+1. **Check class distribution** – Is the dataset imbalanced? If yes:
+
+   * Use weighted loss (`class weights`) or oversampling.
+   * Evaluate per-class metrics instead of just global averages.
+
+2. **Train for more epochs** – You only did **1 epoch**. For most NLP tasks, 3–5+ epochs are needed before metrics stabilize.
+
+3. **Learning rate & batch size** – High loss and poor precision/recall could mean:
+
+   * LR is too high → model not converging.
+   * Batch size too small/large → unstable gradients.
+
+4. **Check evaluation metric setup** – If it's multi-class classification, confirm whether precision/recall/F1 are being averaged (`macro`, `micro`, or `weighted`). Sometimes `micro` can hide performance issues.
+
+---
+
+👉 In summary:
+Your model is doing only slightly better than chance (accuracy 56%), but failing to capture the positive class (precision/recall ≈ 0). This points to **class imbalance or undertraining** as the main issues.
+
+Do you want me to suggest **specific training adjustments (config changes)** to fix this quickly?
